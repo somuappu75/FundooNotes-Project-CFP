@@ -36,5 +36,24 @@ namespace FundooNotes_Project_CFP.Controllers
                 throw;
             }
         }
+        [HttpPost("login")]
+        public IActionResult login(UserLogin userLogin)
+        {
+            try
+            {
+                var result = userBL.login(userLogin);
+                if (result != null)
+                    return this.Ok(new { success = true, message = "Login Successfull", data = result });
+                else
+                    return this.BadRequest(new { success = false, message = "Login UNSuccessfull" });
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        
     }
 }
