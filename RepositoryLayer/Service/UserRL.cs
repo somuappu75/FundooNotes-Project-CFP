@@ -14,7 +14,7 @@ using System.Text;
 
 namespace RepositoryLayer.Service
 {
-    public class UserRL:IUserRL
+    public class UserRL : IUserRL
     {
         private readonly FundooContext fundooContext;
         private readonly IConfiguration _Toolsettings;
@@ -50,15 +50,15 @@ namespace RepositoryLayer.Service
         {
             try
             {
-                var user = fundooContext.User.Where(x => x.Email == userLogin.Email && x.Password==userLogin.Password).FirstOrDefault();
-                if(user!= null)
-                        {
+                var user = fundooContext.User.Where(x => x.Email == userLogin.Email && x.Password == userLogin.Password).FirstOrDefault();
+                if (user != null)
+                {
                     string token = GenerateSecurityToken(user.Email, user.Id);
                     return token;
                 }
                 return null;
-               // string token = GenerateSecurityToken(user.Email, user.Id);
-//return token;
+                // string token = GenerateSecurityToken(user.Email, user.Id);
+                //return token;
 
             }
             catch (Exception)
@@ -83,5 +83,28 @@ namespace RepositoryLayer.Service
             return new JwtSecurityTokenHandler().WriteToken(token);
 
         }
+        //Adding ForgetPassword
+        public string ForgetPassword(string email)
+        {
+            try
+            {
+                var user = fundooContext.User.Where(x => x.Email == email).FirstOrDefault();
+                if (user != null)
+                {
+                    var token = GenerateSecurityToken(user.Email, user.Id);
+                    new Msmq().Sender(token);
+                    return token;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
+
