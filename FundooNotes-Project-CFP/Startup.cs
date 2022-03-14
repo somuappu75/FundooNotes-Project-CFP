@@ -93,6 +93,8 @@ namespace FundooNotes_Project_CFP
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseSwagger();

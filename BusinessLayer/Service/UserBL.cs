@@ -29,7 +29,7 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
-
+        //user registration
         public UserEntity Registration(UserRegistration User)
         {
             try
@@ -42,6 +42,7 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+        //forgot passsword
         public string ForgetPassword(string email)
         {
             try
@@ -52,7 +53,19 @@ namespace BusinessLayer.Service
             {
                 throw;
             }
+        }
+            public bool ResetPassword(string email, string password, string confirmPassword)
+            {
+                try
+                {
+                    return userRL.ResetPassword(email, password, confirmPassword);
+                }
+                catch (Exception)
+                {
 
+                    throw;
+                }
+
+            }
         }
     }
-}
