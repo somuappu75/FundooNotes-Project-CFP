@@ -38,6 +38,8 @@ namespace FundooNotes_Project_CFP
             services.AddControllers();
             services.AddTransient<IUserBL, UserBL>();
             services.AddTransient<IUserRL, UserRL>();
+            services.AddTransient<INotesBL, NotesBL>();
+            services.AddTransient<INotesRL, NotesRL>();
 
             //Adding Swagger
             services.AddSwaggerGen(c =>
