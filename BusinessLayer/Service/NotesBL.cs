@@ -69,12 +69,51 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
-
+        //GetAllNotes Method Reference
         public List<NotesEntity> GetAllNotes()
         {
             try
             {
                 return notesRL.GetAllNotes();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        //IsPinned Method Reference
+        public bool IsPinned(long noteId, long userId)
+        {
+            try
+            {
+                return notesRL.IsPinned(noteId, userId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        //IsArchieve Method Reference
+        public bool IsArchive(long noteId, long userId)
+        {
+            try
+            {
+                return notesRL.IsArchive(noteId, userId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        //IsTrash Method Reference
+        public bool IsTrash(long noteId)
+        {
+            try
+            {
+                return notesRL.IsTrash(noteId);
             }
             catch (Exception)
             {

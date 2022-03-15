@@ -125,5 +125,71 @@ namespace FundooNotes_Project_CFP.Controllers
                 throw;
             }
         }
+        //IsPinned
+        [HttpPut("Pinned")]
+        public IActionResult IsPinned(long noteId, long userID)
+        {
+            bool result = notesBL.IsPinned(noteId, userID);
+
+            try
+            {
+                if (result == true)
+                {
+                    return Ok(new { Success = true, message = "Successful" });
+                }
+                else
+                {
+                    return BadRequest(new { Success = false, message = "Unsuccessful" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }                   
+        }
+        //I Archive
+        [HttpPut("Archeived")]
+        public IActionResult IsArchieve(long noteId, long userID)
+        {
+            bool result = notesBL.IsArchive(noteId, userID);
+
+            try
+            {
+                if (result == true)
+                {
+                    return Ok(new { Success = true, message = "Successful" });
+                }
+                else
+                {
+                    return BadRequest(new { Success = false, message = "Unsuccessful" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        //IsTrash
+        [HttpPut("Trashed")]
+        public IActionResult IsTrash(long noteId)
+        {
+            bool result = notesBL.IsTrash(noteId);
+
+            try
+            {
+                if (result == true)
+                {
+                    return Ok(new { Success = true, message = "Successful" });
+                }
+                else
+                {
+                    return BadRequest(new { Success = false, message = "Unsuccessful" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

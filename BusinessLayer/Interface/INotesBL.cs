@@ -13,5 +13,8 @@ public interface INotesBL
         public bool DeleteNote(long noteId);
         public IEnumerable<NotesEntity> RetrieveAllNotes(long noteId);
         public List<NotesEntity> GetAllNotes();
+        public bool IsPinned(long noteId, long userId);
+        public bool IsArchive(long noteId, long userId);
+        public bool IsTrash(long noteId);
     }
 }

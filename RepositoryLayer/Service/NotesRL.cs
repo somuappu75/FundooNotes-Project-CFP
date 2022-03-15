@@ -154,6 +154,102 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
+        //IsPinned Api Method 
+        public bool IsPinned(long noteId, long userId)
+        {
+            try
+            {
+                var notes = fundooContext.Notes.FirstOrDefault(e => e.NotesId == noteId && e.Id == userId);
 
+                if (notes != null)
+                {
+                    if (notes.IsPinned == true)
+                    {
+                        notes.IsPinned = false;
+                    }
+                    else if (notes.IsPinned == false)
+                    {
+                        notes.IsPinned = true;
+                    }
+                    notes.modifiedAt = DateTime.Now;
+                }
+                int changes = fundooContext.SaveChanges();
+
+                if (changes > 0)
+                {
+                    return true;
+                }
+                else { return false; }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        //IsArchieve Api MethoD ro Retieve Vice-versa
+        public bool IsArchive(long noteId, long userId)
+        {
+            try
+            {
+                var notes = fundooContext.Notes.FirstOrDefault(e => e.NotesId == noteId && e.Id == userId);
+
+                if (notes != null)
+                {
+                    if (notes.IsArchive == true)
+                    {
+                        notes.IsArchive = false;
+                    }
+                    else if (notes.IsArchive == false)
+                    {
+                        notes.IsArchive = true;
+                    }
+                    notes.modifiedAt = DateTime.Now;
+                }
+                int changes = fundooContext.SaveChanges();
+
+                if (changes > 0)
+                {
+                    return true;
+                }
+                else { return false; }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        //IsTrash Api Method
+        public bool IsTrash(long noteId)
+        {
+            try
+            {
+                var notes = fundooContext.Notes.FirstOrDefault(e => e.NotesId == noteId);
+
+                if (notes != null)
+                {
+                    if (notes.IsTrash == true)
+                    {
+                        notes.IsTrash = false;
+                    }
+                    else if (notes.IsTrash == false)
+                    {
+                        notes.IsTrash = true;
+                    }
+                    notes.modifiedAt = DateTime.Now;
+                }
+                int changes = fundooContext.SaveChanges();
+
+                if (changes > 0)
+                {
+                    return true;
+                }
+                else { return false; }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
     }
 }
