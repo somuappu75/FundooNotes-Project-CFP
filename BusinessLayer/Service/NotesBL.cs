@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Interface;
 using CommonLayer.Model;
+using Microsoft.AspNetCore.Http;
 using RepositoryLayer.Entity;
 using RepositoryLayer.Interface;
 using System;
@@ -83,11 +84,11 @@ namespace BusinessLayer.Service
             }
         }
         //IsPinned Method Reference
-        public bool IsPinned(long noteId, long userId)
+        public bool IsPinned(long noteId)
         {
             try
             {
-                return notesRL.IsPinned(noteId, userId);
+                return notesRL.IsPinned(noteId);
             }
             catch (Exception)
             {
@@ -96,11 +97,11 @@ namespace BusinessLayer.Service
             }
         }
         //IsArchieve Method Reference
-        public bool IsArchive(long noteId, long userId)
+        public bool IsArchive(long noteId)
         {
             try
             {
-                return notesRL.IsArchive(noteId, userId);
+                return notesRL.IsArchive(noteId);
             }
             catch (Exception)
             {
@@ -121,7 +122,32 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+        //ChangeColor Method reference
+        public NotesEntity ChangeColor(long notesId, string color)
+        {
+            try
+            {
 
+                return notesRL.ChangeColor(notesId,color);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        //Adding Image Method Reference
+        public NotesEntity UploadImage(long noteId, long userId, IFormFile image)
+        {
+            try
+            {
+                return this.notesRL.UploadImage(noteId, userId, image);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
     }
 }

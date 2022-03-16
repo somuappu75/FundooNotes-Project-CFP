@@ -1,4 +1,8 @@
-﻿using CommonLayer.Model;
+﻿using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using CommonLayer.Model;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using RepositoryLayer.Contex;
 using RepositoryLayer.Entity;
 using RepositoryLayer.Interface;
@@ -13,9 +17,11 @@ namespace RepositoryLayer.Service
     public class NotesRL : INotesRL
     {
         public readonly FundooContext fundooContext;
-        public NotesRL(FundooContext fundooContext)
+        private readonly IConfiguration configuration;
+        public NotesRL(FundooContext fundooContext, IConfiguration configuration)
         {
             this.fundooContext = fundooContext;
+            this.configuration = configuration;
         }
 
         public NotesEntity CreateNote(NotesModel notesModel, long UserId)
@@ -155,11 +161,11 @@ namespace RepositoryLayer.Service
             }
         }
         //IsPinned Api Method 
-        public bool IsPinned(long noteId, long userId)
+        public bool IsPinned(long noteId)
         {
             try
             {
-                var notes = fundooContext.Notes.FirstOrDefault(e => e.NotesId == noteId && e.Id == userId);
+                var notes = fundooContext.Notes.FirstOrDefault(e => e.NotesId == noteId);
 
                 if (notes != null)
                 {
@@ -187,11 +193,11 @@ namespace RepositoryLayer.Service
             }
         }
         //IsArchieve Api MethoD ro Retieve Vice-versa
-        public bool IsArchive(long noteId, long userId)
+        public bool IsArchive(long noteId)
         {
             try
             {
-                var notes = fundooContext.Notes.FirstOrDefault(e => e.NotesId == noteId && e.Id == userId);
+                var notes = fundooContext.Notes.FirstOrDefault(e => e.NotesId == noteId);
 
                 if (notes != null)
                 {
@@ -251,5 +257,69 @@ namespace RepositoryLayer.Service
             }
 
         }
+        //Change COlor Api Method
+        public NotesEntity ChangeColor(long notesId, string color)
+        {
+            try
+            {
+                NotesEntity note = this.fundooContext.Notes.FirstOrDefault(e => e.NotesId == notesId);
+                if (note != null)
+                {
+                    note.Color = color;
+                    fundooContext.Notes.Update(note);
+                    this.fundooContext.SaveChanges();
+                    return note;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        //Image Adding Api Method
+        public NotesEntity UploadImage(long noteId, long userId, IFormFile image)
+        {
+            try
+            {
+                // Fetch All the details with the given noteId and userId
+                var note = this.fundooContext.Notes.FirstOrDefault(n => n.NotesId == noteId && n.Id == userId);
+                if (note != null)
+                {
+                    Account acc = new Account(configuration["Cloudinary:CloudName"], configuration["Cloudinary:ApiKey"], configuration["Cloudinary:ApiSecret"]);
+                    Cloudinary cloud = new Cloudinary(acc);
+                    var imagePath = image.OpenReadStream();
+                    var uploadParams = new ImageUploadParams()
+                    {
+                        File = new FileDescription(image.FileName, imagePath),
+                    };
+                    var uploadResult = cloud.Upload(uploadParams);
+                    note.Image = image.FileName;
+                    this.fundooContext.Notes.Update(note);
+                    int upload = this.fundooContext.SaveChanges();
+                    if (upload > 0)
+                    {
+                        return note;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
+   
