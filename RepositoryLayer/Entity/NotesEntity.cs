@@ -24,6 +24,6 @@ namespace RepositoryLayer.Entity
 
         [ForeignKey("user")]
         public long Id { get; set; }
-        public UserEntity user { get; set; }
+        public virtual UserEntity user { get; set; }
     }
 }
