@@ -7,17 +7,20 @@ using System.Text;
 
 namespace BusinessLayer.Interface
 {
-    public interface INotesBL
+   public  interface INotesBL
     {
         public NotesEntity CreateNote(NotesModel notesModel, long UserId);
-        public NotesEntity UpdateNote(NotesModel notesModel, long noteId);
-        public bool DeleteNote(long noteId);
-        public IEnumerable<NotesEntity> RetrieveAllNotes(long noteId);
+        public NotesEntity UpdateNote(UpdatNoteModel notesModel, long noteId, long userId);
+        public bool DeleteNote(long noteId, long userId);
+
+        public NotesEntity getNote(long noteId, long userId);
+        public List<NotesEntity> GetNotesByUserId(long userId);
         public List<NotesEntity> GetAllNotes();
-        public bool IsPinned(long noteId);
-        public bool IsArchive(long noteId);
-        public bool IsTrash(long noteId);
-        public NotesEntity ChangeColor(long notesId, string color);
+        public NotesEntity IsArchieveOrNot(long noteId, long userId);
+        public NotesEntity IsTrashOrNot(long noteId, long userId);
+        public NotesEntity IsPinnedOrNot(long noteId, long userId);
+
         public NotesEntity UploadImage(long noteId, long userId, IFormFile image);
+        public NotesEntity ChangeColour(long noteId, long userId, string color);
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CommonLayer.Model
 {
-  public class NotesModel
+   public  class NotesModel
     {
         public string Title { get; set; }
         public string Description { get; set; }
@@ -16,6 +16,5 @@ namespace CommonLayer.Model
         public bool IsPinned { get; set; }
         public DateTime? createdAt { get; set; }
         public DateTime? modifiedAt { get; set; }
-
     }
 }

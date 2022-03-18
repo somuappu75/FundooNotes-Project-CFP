@@ -9,30 +9,28 @@ using System.Text;
 
 namespace RepositoryLayer.Service
 {
-    public class CollabRL:ICollabRL
+  public  class CollabRL:ICollabRL
     {
-        private FundooContext fundooContext;
-        Collaboration collaboration = new Collaboration();
+        private readonly FundooContext fundooContext;
 
         public CollabRL(FundooContext fundooContext)
         {
             this.fundooContext = fundooContext;
         }
-
-        public Collaboration CollaborationAdd(CollabModel collabModel)
+        //AddCollaborator Api Method
+        public CollaboratorEntity AddCollab(CollaboratorModel collaboratorModel)
         {
             try
             {
-                Collaboration collaboration = new Collaboration();
-                var user = fundooContext.User.Where(e => e.Email == collabModel.CollabEmail).FirstOrDefault();
-
-                var notes = fundooContext.Notes.Where(e => e.NotesId == collabModel.NotesID && e.Id == collabModel.Id).FirstOrDefault();
+                CollaboratorEntity collaboration = new CollaboratorEntity();
+                var user = fundooContext.User.Where(e => e.Email == collaboratorModel.CollabEmail).FirstOrDefault();
+                var notes = fundooContext.Notes.Where(e => e.NotesId == collaboratorModel.NoteID && e.Id == collaboratorModel.Id).FirstOrDefault();
                 if (notes != null && user != null)
                 {
-                    collaboration.NotesId = collabModel.NotesID;
-                    collaboration.CollabEmail = collabModel.CollabEmail;
-                    collaboration.Id = collabModel.Id;
-                    fundooContext.Collab.Add(collaboration);
+                    collaboration.NotesId = collaboratorModel.NoteID;
+                    collaboration.CollabEmail = collaboratorModel.CollabEmail;
+                    collaboration.Id = collaboratorModel.Id;
+                    fundooContext.Collaborate.Add(collaboration);
                     var result = fundooContext.SaveChanges();
                     return collaboration;
                 }
@@ -46,6 +44,51 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
+        //Delete Collab APi Methos
+        public CollaboratorEntity RemoveCollab(long userId, long collabId)
+        {
+            try
+            {
+                // Fetch All the details from Collab Table by user id and collab id.
 
+                var data = this.fundooContext.Collaborate.FirstOrDefault(d => d.Id == userId && d.CollabId == collabId);
+                if (data != null)
+                {
+                    this.fundooContext.Collaborate.Remove(data);
+                    this.fundooContext.SaveChanges();
+                    return data;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
+        //GetBy NOte ID Api Method
+        public IEnumerable<CollaboratorEntity> GetByNoteId(long noteId, long userId)
+        {
+            try
+            {
+                // Fetch All the details from Collab Table by note id.
+                var data = this.fundooContext.Collaborate.Where(c => c.NotesId == noteId && c.Id == userId).ToList();
+                if (data != null)
+                {
+                    return data;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

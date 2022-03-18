@@ -6,11 +6,10 @@ using System.Text;
 
 namespace RepositoryLayer.Entity
 {
-   public  class Collaboration
+  public  class CollaboratorEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-
         public long CollabId { get; set; }
         public string CollabEmail { get; set; }
 
@@ -20,7 +19,6 @@ namespace RepositoryLayer.Entity
 
         [ForeignKey("notes")]
         public long NotesId { get; set; }
-        public virtual  NotesEntity notes { get; set; }
-
+        public virtual NotesEntity notes { get; set; }
     }
 }

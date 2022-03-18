@@ -43,6 +43,7 @@ namespace FundooNotes_Project_CFP
             services.AddTransient<ICollabBL, CollabBL>();
             services.AddTransient<ICollabRL, CollabRL>();
 
+
             //Adding Swagger
             services.AddSwaggerGen(c =>
             {

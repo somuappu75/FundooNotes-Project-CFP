@@ -5,6 +5,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20220317143810_collaboration.cs" />
+    <Compile Remove="Migrations\20220317143810_collaboration.Designer.cs" />
+    <Compile Remove="Migrations\20220317144640_collaboration.cs" />
+    <Compile Remove="Migrations\20220317144640_collaboration.Designer.cs" />
+    <Compile Remove="Migrations\20220317145052_collaboration.cs" />
+    <Compile Remove="Migrations\20220317145052_collaboration.Designer.cs" />
+    <Compile Remove="Migrations\20220317145641_collaboration.cs" />
+    <Compile Remove="Migrations\20220317145641_collaboration.Designer.cs" />
+    <Compile Remove="Migrations\20220317145824_collaborate.cs" />
+    <Compile Remove="Migrations\20220317145824_collaborate.Designer.cs" />
+    <Compile Remove="Migrations\20220317150058_collaborator.cs" />
+    <Compile Remove="Migrations\20220317150058_collaborator.Designer.cs" />
+    <Compile Remove="Migrations\20220317150853_collaborat.cs" />
+    <Compile Remove="Migrations\20220317150853_collaborat.Designer.cs" />
+    <Compile Remove="Migrations\20220317151645_collaborator75.cs" />
+    <Compile Remove="Migrations\20220317151645_collaborator75.Designer.cs" />
+    <Compile Remove="Migrations\20220318065058_collaborator2.cs" />
+    <Compile Remove="Migrations\20220318065058_collaborator2.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CloudinaryDotNet" Version="1.17.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.0">

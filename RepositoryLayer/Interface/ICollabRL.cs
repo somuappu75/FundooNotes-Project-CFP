@@ -6,8 +6,12 @@ using System.Text;
 
 namespace RepositoryLayer.Interface
 {
-   public  interface ICollabRL
+  public   interface ICollabRL
     {
-        public Collaboration CollaborationAdd(CollabModel collabModel);
+        public CollaboratorEntity AddCollab(CollaboratorModel collaboratorModel);
+        public CollaboratorEntity RemoveCollab(long userId, long collabId);
+
+        public IEnumerable<CollaboratorEntity> GetByNoteId(long noteId, long userId);
+
     }
 }

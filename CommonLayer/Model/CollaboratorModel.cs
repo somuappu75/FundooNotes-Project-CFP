@@ -4,9 +4,9 @@ using System.Text;
 
 namespace CommonLayer.Model
 {
-   public  class CollabModel
+    public class CollaboratorModel
     {
-        public long NotesID { get; set; }
+        public long NoteID { get; set; }
         public string CollabEmail { get; set; }
         public long Id { get; set; }
     }

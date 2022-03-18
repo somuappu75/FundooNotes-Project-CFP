@@ -9,32 +9,31 @@ using System.Text;
 
 namespace BusinessLayer.Service
 {
-   public class NotesBL : INotesBL
+    public class NotesBL : INotesBL
     {
-      
-            private readonly INotesRL notesRL;
-            public NotesBL(INotesRL notesRL)
-            {
-                this.notesRL = notesRL;
-            }
-            public NotesEntity CreateNote(NotesModel notesModel, long UserId)
-            {
-                try
-                {
-                    return notesRL.CreateNote(notesModel, UserId);
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-            }
-        //Upadte MethoD Reference
-        public NotesEntity UpdateNote(NotesModel notesModel, long noteId)
+        private readonly INotesRL notesRL;
+        public NotesBL(INotesRL notesRL)
+        {
+            this.notesRL = notesRL;
+        }
+        public NotesEntity CreateNote(NotesModel notesModel, long UserId)
         {
             try
             {
-                return notesRL.UpdateNote(notesModel, noteId);
+                return notesRL.CreateNote(notesModel, UserId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public NotesEntity UpdateNote(UpdatNoteModel notesModel, long noteId, long userId)
+        {
+            try
+            {
+                return notesRL.UpdateNote(notesModel, noteId, userId);
             }
             catch (Exception)
             {
@@ -43,12 +42,12 @@ namespace BusinessLayer.Service
             }
 
         }
-        //Delete Method Reference
-        public bool DeleteNote(long noteId)
+
+        public bool DeleteNote(long noteId, long userId)
         {
             try
             {
-                return notesRL.DeleteNote(noteId);
+                return notesRL.DeleteNote(noteId, userId);
             }
             catch (Exception)
             {
@@ -56,21 +55,7 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
-        //Retrive Method Reference
-        public IEnumerable<NotesEntity> RetrieveAllNotes(long noteId)
-        {
-            try
-            {
 
-                return notesRL.RetrieveAllNotes(noteId);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-        //GetAllNotes Method Reference
         public List<NotesEntity> GetAllNotes()
         {
             try
@@ -83,12 +68,12 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
-        //IsPinned Method Reference
-        public bool IsPinned(long noteId)
+
+        public List<NotesEntity> GetNotesByUserId(long userId)
         {
             try
             {
-                return notesRL.IsPinned(noteId);
+                return notesRL.GetNotesByUserId(userId);
             }
             catch (Exception)
             {
@@ -96,12 +81,12 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
-        //IsArchieve Method Reference
-        public bool IsArchive(long noteId)
+
+        public NotesEntity getNote(long noteId, long userId)
         {
             try
             {
-                return notesRL.IsArchive(noteId);
+                return notesRL.getNote(noteId, userId);
             }
             catch (Exception)
             {
@@ -109,39 +94,60 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
-        //IsTrash Method Reference
-        public bool IsTrash(long noteId)
+        public NotesEntity IsArchieveOrNot(long noteId, long userId)
         {
             try
             {
-                return notesRL.IsTrash(noteId);
+                return notesRL.IsArchieveOrNot(noteId, userId);
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
-        //ChangeColor Method reference
-        public NotesEntity ChangeColor(long notesId, string color)
+
+        public NotesEntity IsTrashOrNot(long noteId, long userId)
         {
             try
             {
-
-                return notesRL.ChangeColor(notesId,color);
+                return notesRL.IsTrashOrNot(noteId, userId);
             }
             catch (Exception)
             {
+                throw;
+            }
 
+        }
+
+        public NotesEntity IsPinnedOrNot(long noteId, long userId)
+        {
+            try
+            {
+                return notesRL.IsPinnedOrNot(noteId, userId);
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }
-        //Adding Image Method Reference
+
         public NotesEntity UploadImage(long noteId, long userId, IFormFile image)
         {
             try
             {
                 return this.notesRL.UploadImage(noteId, userId, image);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public NotesEntity ChangeColour(long noteId, long userId, string color)
+        {
+            try
+            {
+                return this.notesRL.ChangeColour(noteId, userId, color);
             }
             catch (Exception)
             {

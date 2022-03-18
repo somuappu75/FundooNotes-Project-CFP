@@ -19,7 +19,7 @@ namespace RepositoryLayer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("RepositoryLayer.Entity.Collaboration", b =>
+            modelBuilder.Entity("RepositoryLayer.Entity.CollaboratorEntity", b =>
                 {
                     b.Property<long>("CollabId")
                         .ValueGeneratedOnAdd()
@@ -41,7 +41,7 @@ namespace RepositoryLayer.Migrations
 
                     b.HasIndex("NotesId");
 
-                    b.ToTable("Collab");
+                    b.ToTable("Collaborate");
                 });
 
             modelBuilder.Entity("RepositoryLayer.Entity.NotesEntity", b =>
@@ -121,7 +121,7 @@ namespace RepositoryLayer.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("RepositoryLayer.Entity.Collaboration", b =>
+            modelBuilder.Entity("RepositoryLayer.Entity.CollaboratorEntity", b =>
                 {
                     b.HasOne("RepositoryLayer.Entity.UserEntity", "user")
                         .WithMany()

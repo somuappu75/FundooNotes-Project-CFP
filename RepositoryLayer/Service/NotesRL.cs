@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using RepositoryLayer.Contex;
 using RepositoryLayer.Entity;
 using RepositoryLayer.Interface;
-using RepositoryLayer.Migrations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,16 +13,17 @@ using System.Text;
 
 namespace RepositoryLayer.Service
 {
-    public class NotesRL : INotesRL
+    public class NotesRL:INotesRL
     {
-        public readonly FundooContext fundooContext;
-        private readonly IConfiguration configuration;
-        public NotesRL(FundooContext fundooContext, IConfiguration configuration)
-        {
-            this.fundooContext = fundooContext;
-            this.configuration = configuration;
-        }
-
+      
+            public readonly FundooContext fundooContext;
+            private readonly IConfiguration configuration;
+            public NotesRL(FundooContext fundooContext, IConfiguration configuration)
+            {
+                this.fundooContext = fundooContext;
+                this.configuration = configuration;
+            }
+        //Create Note Api Mehod
         public NotesEntity CreateNote(NotesModel notesModel, long UserId)
         {
             try
@@ -60,19 +60,17 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
-        //Update Method Modify The Details
-        public NotesEntity UpdateNote(NotesModel notesModel, long noteId)
+        //Update Note Api Mehod
+        public NotesEntity UpdateNote(UpdatNoteModel notesModel, long noteId, long userId)
         {
             try
             {
                 // Fetch All the details with the given noteId.
-                var note = this.fundooContext.Notes.Where(u => u.NotesId == noteId).FirstOrDefault();
+                var note = this.fundooContext.Notes.Where(u => u.NotesId == noteId && u.Id == userId).FirstOrDefault();
                 if (note != null)
                 {
                     note.Title = notesModel.Title;
                     note.Description = notesModel.Description;
-                    note.Color = notesModel.Color;
-                    note.Image = notesModel.Image;
                     note.modifiedAt = notesModel.modifiedAt;
 
                     // Update database for given NoteId.
@@ -92,13 +90,13 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
-        //Delete Method To Delete Note
-        public bool DeleteNote(long noteId)
+        // //Remove Note Api Mehod
+        public bool DeleteNote(long noteId, long userId)
         {
             try
             {
                 // Fetch details with the given noteId.
-                var note = this.fundooContext.Notes.Where(n => n.NotesId == noteId).FirstOrDefault();
+                var note = this.fundooContext.Notes.Where(n => n.NotesId == noteId && n.Id == userId).FirstOrDefault();
                 if (note != null)
                 {
                     // Remove Note details from database
@@ -118,12 +116,14 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
-        //Retieve data From NotesId
-        public IEnumerable<NotesEntity> RetrieveAllNotes(long noteId)
+        //GetNote Api MEthod
+        public NotesEntity getNote(long noteId, long userId)
         {
             try
             {
-                var note = fundooContext.Notes.Where(e => e.Id == noteId).ToList();
+
+                // Fetch details with the given noteId.
+                var note = this.fundooContext.Notes.Where(n => n.NotesId == noteId && n.Id == userId).FirstOrDefault();
                 if (note != null)
                 {
 
@@ -139,12 +139,34 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
+        //getnote byuserid Method
+        public List<NotesEntity> GetNotesByUserId(long userId)
+        {
+            try
+            {
+                //fetch all the notes with user id
+                var notes = this.fundooContext.Notes.Where(n => n.Id == userId).ToList();
+                if (notes != null)
+                {
+                    return notes;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
 
+                throw;
+            }
+        }
+        //get all notes api method
         public List<NotesEntity> GetAllNotes()
         {
             try
             {
-                // Fetch All the details from database
+                // Fetch All the details from Notes Table
                 var notes = this.fundooContext.Notes.ToList();
                 if (notes != null)
                 {
@@ -160,115 +182,27 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
-        //IsPinned Api Method 
-        public bool IsPinned(long noteId)
+        //IsArchive Api method
+        public NotesEntity IsArchieveOrNot(long noteId, long userId)
         {
             try
             {
-                var notes = fundooContext.Notes.FirstOrDefault(e => e.NotesId == noteId);
-
+                // Fetch All the details with the given noteId and userId
+                var notes = this.fundooContext.Notes.Where(n => n.NotesId == noteId && n.Id == userId).FirstOrDefault();
                 if (notes != null)
                 {
-                    if (notes.IsPinned == true)
-                    {
-                        notes.IsPinned = false;
-                    }
-                    else if (notes.IsPinned == false)
-                    {
-                        notes.IsPinned = true;
-                    }
-                    notes.modifiedAt = DateTime.Now;
-                }
-                int changes = fundooContext.SaveChanges();
-
-                if (changes > 0)
-                {
-                    return true;
-                }
-                else { return false; }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-        //IsArchieve Api MethoD ro Retieve Vice-versa
-        public bool IsArchive(long noteId)
-        {
-            try
-            {
-                var notes = fundooContext.Notes.FirstOrDefault(e => e.NotesId == noteId);
-
-                if (notes != null)
-                {
-                    if (notes.IsArchive == true)
-                    {
-                        notes.IsArchive = false;
-                    }
-                    else if (notes.IsArchive == false)
+                    if (notes.IsArchive == false)
                     {
                         notes.IsArchive = true;
+                        this.fundooContext.SaveChanges();
+                        return notes;
                     }
-                    notes.modifiedAt = DateTime.Now;
-                }
-                int changes = fundooContext.SaveChanges();
-
-                if (changes > 0)
-                {
-                    return true;
-                }
-                else { return false; }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-        //IsTrash Api Method
-        public bool IsTrash(long noteId)
-        {
-            try
-            {
-                var notes = fundooContext.Notes.FirstOrDefault(e => e.NotesId == noteId);
-
-                if (notes != null)
-                {
-                    if (notes.IsTrash == true)
+                    else
                     {
-                        notes.IsTrash = false;
+                        notes.IsArchive = false;
+                        this.fundooContext.SaveChanges();
+                        return notes;
                     }
-                    else if (notes.IsTrash == false)
-                    {
-                        notes.IsTrash = true;
-                    }
-                    notes.modifiedAt = DateTime.Now;
-                }
-                int changes = fundooContext.SaveChanges();
-
-                if (changes > 0)
-                {
-                    return true;
-                }
-                else { return false; }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-        }
-        //Change COlor Api Method
-        public NotesEntity ChangeColor(long notesId, string color)
-        {
-            try
-            {
-                NotesEntity note = this.fundooContext.Notes.FirstOrDefault(e => e.NotesId == notesId);
-                if (note != null)
-                {
-                    note.Color = color;
-                    fundooContext.Notes.Update(note);
-                    this.fundooContext.SaveChanges();
-                    return note;
                 }
                 else
                 {
@@ -277,11 +211,74 @@ namespace RepositoryLayer.Service
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
-        //Image Adding Api Method
+        //IsTrash Api Method
+        public NotesEntity IsTrashOrNot(long noteId, long userId)
+        {
+            try
+            {
+                // Fetch All the details with the given noteId and userId
+                var notes = this.fundooContext.Notes.Where(n => n.NotesId == noteId && n.Id == userId).FirstOrDefault();
+                if (notes != null)
+                {
+                    if (notes.IsTrash == false)
+                    {
+                        notes.IsTrash = true;
+                        this.fundooContext.SaveChanges();
+                        return notes;
+                    }
+                    else
+                    {
+                        notes.IsTrash = false;
+                        this.fundooContext.SaveChanges();
+                        return notes;
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        //Ispinned Api Method
+        public NotesEntity IsPinnedOrNot(long noteId, long userId)
+        {
+            try
+            {
+                // Fetch All the details with the given noteId and userId
+                var notes = this.fundooContext.Notes.Where(n => n.NotesId == noteId && n.Id == userId).FirstOrDefault();
+                if (notes != null)
+                {
+                    if (notes.IsPinned == false)
+                    {
+                        notes.IsPinned = true;
+                        this.fundooContext.SaveChanges();
+                        return notes;
+                    }
+                    else
+                    {
+                        notes.IsPinned = false;
+                        this.fundooContext.SaveChanges();
+                        return notes;
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        //UploadImage APi mEthod
         public NotesEntity UploadImage(long noteId, long userId, IFormFile image)
         {
             try
@@ -320,6 +317,30 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
+        //Change Color Api MEthod
+        public NotesEntity ChangeColour(long noteId, long userId, string color)
+        {
+            try
+            {
+                var notes = this.fundooContext.Notes.FirstOrDefault(a => a.NotesId == noteId && a.Id == userId);
+                if (notes != null)
+                {
+                    notes.Color = color;
+                    this.fundooContext.SaveChanges();
+                    return notes;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
     }
 }
-   
