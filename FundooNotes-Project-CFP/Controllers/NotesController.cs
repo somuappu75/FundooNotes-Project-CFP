@@ -34,7 +34,7 @@ namespace FundooNotes_Project_CFP.Controllers
 
         }
         [Authorize]
-        [HttpPost("create")]
+        [HttpPost("Create")]
         public IActionResult CreateNote(NotesModel notesModel)
         {
             try
@@ -59,7 +59,7 @@ namespace FundooNotes_Project_CFP.Controllers
         }
 
         [Authorize]
-        [HttpPut("update")]
+        [HttpPut("Update")]
         public IActionResult UpdateNote(UpdatNoteModel notesModel, long noteId)
         {
             try
@@ -128,7 +128,7 @@ namespace FundooNotes_Project_CFP.Controllers
             }
         }
         [Authorize]
-        [HttpGet("{noteId}/GetNote")]
+        [HttpGet("{NoteId}/GetNote")]
         public IActionResult GetNote(long noteId)
         {
             try
@@ -171,7 +171,7 @@ namespace FundooNotes_Project_CFP.Controllers
             }
         }
 
-        [HttpGet("redis")]
+        [HttpGet("Redis/GetAll")]
         public async Task<IActionResult> GetAllNotesUsingRedisCache()
         {
             var cacheKey = "NotesList";
@@ -267,7 +267,7 @@ namespace FundooNotes_Project_CFP.Controllers
         }
 
         [Authorize]
-        [HttpPost("UploadImage")]
+        [HttpPost("ImageUpload")]
         public IActionResult UploadImage(long noteId, IFormFile image)
         {
             try
@@ -290,7 +290,7 @@ namespace FundooNotes_Project_CFP.Controllers
             }
         }
 
-        [HttpPut("color")]
+        [HttpPut("Color")]
         public IActionResult UpdateColour(long noteId, string color)
         {
             try

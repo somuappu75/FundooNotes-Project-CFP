@@ -75,7 +75,7 @@ namespace FundooNotes_Project_CFP.Controllers
 
         }
         [Authorize]
-        [HttpDelete("RetrieveLabelBynoteId")]
+        [HttpDelete("Retrieve")]
         public IActionResult DeleteLabel(long noteID, string lableName)
         {
             try
@@ -137,7 +137,7 @@ namespace FundooNotes_Project_CFP.Controllers
                 throw;
             }
         }
-        [HttpGet("redis")]
+        [HttpGet("redis/GetAll")]
         public async Task<IActionResult> GetAllLabesUsingRedisCache()
         {
             var cacheKey = "labelList";

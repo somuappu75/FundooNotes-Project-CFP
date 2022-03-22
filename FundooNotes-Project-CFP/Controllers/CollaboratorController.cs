@@ -121,7 +121,7 @@ namespace FundooNotes_Project_CFP.Controllers
             }
         }
 
-        [HttpGet("redis")]
+        [HttpGet("Redis/GetAll")]
         public async Task<IActionResult> GetAllCollabUsingRedisCache()
         {
             var cacheKey = "collabList";

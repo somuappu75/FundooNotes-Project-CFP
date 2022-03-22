@@ -20,6 +20,7 @@ namespace FundooNotes_Project_CFP.Controllers
             this.userBL = userBL;
 
         }
+        //Register Controller Api
         [HttpPost("Register")]
         public IActionResult Registration(UserRegistration user)
         {
@@ -37,7 +38,8 @@ namespace FundooNotes_Project_CFP.Controllers
                 throw;
             }
         }
-        [HttpPost("login")]
+        //Login Controller
+        [HttpPost("Login")]
         public IActionResult login(UserLogin userLogin)
         {
             try
@@ -55,7 +57,8 @@ namespace FundooNotes_Project_CFP.Controllers
                 throw;
             }
         }
-        [HttpPost("forgotPassword")]
+        //ForgotPassword Api
+        [HttpPost("ForgotPassword")]
         public IActionResult ForgetPassword(string email)
         {
             try
@@ -76,6 +79,7 @@ namespace FundooNotes_Project_CFP.Controllers
             }
 
         }
+        //ResetPassword Api Contoller
         [HttpPut("ResetPassword")]
         public IActionResult ResetPassword(string password, string confirmPassword)
         {
