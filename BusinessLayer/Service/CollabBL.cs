@@ -41,6 +41,17 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+        public IEnumerable<CollaboratorEntity> GetAllCollab()
+        {
+            try
+            {
+                return this.collabRL.GetAllCollab();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         //RemoveCOllab Method Reference
         public CollaboratorEntity RemoveCollab(long userId, long collabId)
         {

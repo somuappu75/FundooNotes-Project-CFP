@@ -3,9 +3,14 @@ using CommonLayer.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
+using RepositoryLayer.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace FundooNotes_Project_CFP.Controllers
@@ -15,10 +20,17 @@ namespace FundooNotes_Project_CFP.Controllers
     [Authorize]
     public class NotesController : ControllerBase
     {
+        private readonly IMemoryCache memoryCache;
+
+        private readonly IDistributedCache distributedCache;
+
         private readonly INotesBL notesBL;
-        public NotesController(INotesBL notesBL)
+        public NotesController(INotesBL notesBL, IMemoryCache memoryCache, IDistributedCache distributedCache)
         {
             this.notesBL = notesBL;
+            this.memoryCache = memoryCache;
+            this.distributedCache = distributedCache;
+
 
         }
         [Authorize]
@@ -136,6 +148,53 @@ namespace FundooNotes_Project_CFP.Controllers
             {
                 throw;
             }
+        }
+        //Get All Notes
+        [HttpGet("GetAll")]
+        public IEnumerable<NotesEntity> GetAllNotes()
+        {
+            try
+            {
+                var result = this.notesBL.GetAllNotes();
+                if (result != null)
+                {
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpGet("redis")]
+        public async Task<IActionResult> GetAllNotesUsingRedisCache()
+        {
+            var cacheKey = "NotesList";
+            string serializedNotesList;
+            var NotesList = new List<NotesEntity>();
+            var redisNotesList = await distributedCache.GetAsync(cacheKey);
+            if (redisNotesList != null)
+            {
+                serializedNotesList = Encoding.UTF8.GetString(redisNotesList);
+                NotesList = JsonConvert.DeserializeObject<List<NotesEntity>>(serializedNotesList);
+            }
+            else
+            {
+
+                NotesList = (List<NotesEntity>)this.notesBL.GetAllNotes();
+                serializedNotesList = JsonConvert.SerializeObject(NotesList);
+                redisNotesList = Encoding.UTF8.GetBytes(serializedNotesList);
+                var options = new DistributedCacheEntryOptions()
+                    .SetAbsoluteExpiration(DateTime.Now.AddMinutes(10))
+                    .SetSlidingExpiration(TimeSpan.FromMinutes(2));
+                await distributedCache.SetAsync(cacheKey, redisNotesList, options);
+            }
+            return Ok(NotesList);
         }
         [HttpPut("IsArchive")]
         public IActionResult IsArchieveOrNot(long noteId)

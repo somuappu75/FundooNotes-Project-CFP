@@ -53,6 +53,19 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+        public IEnumerable<LabelEntity> GetAllLabels()
+        {
+            try
+            {
+                return labelRL.GetAllLabels();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         //DeleteBynOteId
         public bool DeleteLabel(long userID, string labelName)
         {

@@ -1,9 +1,14 @@
 ﻿using BusinessLayer.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
+using RepositoryLayer.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace FundooNotes_Project_CFP.Controllers
@@ -14,9 +19,14 @@ namespace FundooNotes_Project_CFP.Controllers
     public class LabelController : ControllerBase
     {
         ILabelBL labelBL;
-        public LabelController(ILabelBL labelBL)
+        private readonly IMemoryCache memoryCache;
+        private readonly IDistributedCache distributedCache;
+        public LabelController(ILabelBL labelBL,IMemoryCache memoryCache, IDistributedCache distributedCache)
         {
             this.labelBL = labelBL;
+            this.memoryCache = memoryCache;
+            this.distributedCache = distributedCache;
+
         }
         [HttpPost("Add")]
         public IActionResult AddLabel(string labelName, long noteID)
@@ -106,6 +116,51 @@ namespace FundooNotes_Project_CFP.Controllers
 
                 throw;
             }
+        }
+        [HttpGet("GetAll")]
+        public IEnumerable<LabelEntity> GetAllLabels()
+        {
+            try
+            {
+                var result = this.labelBL.GetAllLabels();
+                if (result != null)
+                {
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        [HttpGet("redis")]
+        public async Task<IActionResult> GetAllLabesUsingRedisCache()
+        {
+            var cacheKey = "labelList";
+            string serializedLabelList;
+            var labelsList = new List<LabelEntity>();
+            var redisLabelList = await distributedCache.GetAsync(cacheKey);
+            if (redisLabelList != null)
+            {
+                serializedLabelList = Encoding.UTF8.GetString(redisLabelList);
+                labelsList = JsonConvert.DeserializeObject<List<LabelEntity>>(serializedLabelList);
+            }
+            else
+            {
+                labelsList = (List<LabelEntity>)this.labelBL.GetAllLabels();
+                serializedLabelList = JsonConvert.SerializeObject(labelsList);
+                redisLabelList = Encoding.UTF8.GetBytes(serializedLabelList);
+                var options = new DistributedCacheEntryOptions()
+                    .SetAbsoluteExpiration(DateTime.Now.AddMinutes(15))
+                    .SetSlidingExpiration(TimeSpan.FromMinutes(2));
+                await distributedCache.SetAsync(cacheKey, redisLabelList, options);
+            }
+
+            return this.Ok(labelsList);
         }
     }
 }
