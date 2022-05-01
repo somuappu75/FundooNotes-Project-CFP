@@ -6,7 +6,7 @@ using System.Text;
 
 namespace RepositoryLayer.Entity
 {
-  public  class CollaboratorEntity
+    public class CollaboratorEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

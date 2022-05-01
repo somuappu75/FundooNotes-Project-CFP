@@ -9,7 +9,7 @@ using System.Text;
 
 namespace RepositoryLayer.Service
 {
-   public  class LabelRL:ILabelRL
+    public class LabelRL : ILabelRL
     {
         FundooContext fundoocontext;
         private readonly IConfiguration configuration;

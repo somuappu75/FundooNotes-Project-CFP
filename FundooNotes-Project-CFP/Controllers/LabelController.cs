@@ -21,7 +21,7 @@ namespace FundooNotes_Project_CFP.Controllers
         ILabelBL labelBL;
         private readonly IMemoryCache memoryCache;
         private readonly IDistributedCache distributedCache;
-        public LabelController(ILabelBL labelBL,IMemoryCache memoryCache, IDistributedCache distributedCache)
+        public LabelController(ILabelBL labelBL, IMemoryCache memoryCache, IDistributedCache distributedCache)
         {
             this.labelBL = labelBL;
             this.memoryCache = memoryCache;
@@ -81,7 +81,7 @@ namespace FundooNotes_Project_CFP.Controllers
             try
             {
                 long userID = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
-                if (labelBL.DeleteLabel( noteID, lableName))
+                if (labelBL.DeleteLabel(noteID, lableName))
                 {
                     return this.Ok(new { success = true, message = "successfully Retrieved " });
                 }

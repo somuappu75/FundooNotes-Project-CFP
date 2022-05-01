@@ -45,4 +45,12 @@
     <ProjectReference Include="..\CommonLayer\CommonLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="D:\VisualStudio\repos\FundooNotes-Project-CFP\RepositoryLayer\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="D:\VisualStudio\repos\FundooNotes-Project-CFP\RepositoryLayer\.editorconfig" />
+  </ItemGroup>
+
 </Project>

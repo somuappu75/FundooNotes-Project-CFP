@@ -6,7 +6,7 @@ using System.Text;
 
 namespace RepositoryLayer.Entity
 {
-   public class NotesEntity
+    public class NotesEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

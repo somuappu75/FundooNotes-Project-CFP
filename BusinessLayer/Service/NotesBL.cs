@@ -143,7 +143,7 @@ namespace BusinessLayer.Service
             }
         }
 
-        public NotesEntity ChangeColour(long noteId, long userId, string color)
+        public NotesEntity ChangeColour(long noteId, long userId, updatecolor color)
         {
             try
             {
@@ -157,3 +157,4 @@ namespace BusinessLayer.Service
 
     }
 }
+

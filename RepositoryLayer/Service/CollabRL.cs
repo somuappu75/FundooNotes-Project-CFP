@@ -9,7 +9,7 @@ using System.Text;
 
 namespace RepositoryLayer.Service
 {
-  public  class CollabRL:ICollabRL
+    public class CollabRL : ICollabRL
     {
         private readonly FundooContext fundooContext;
 

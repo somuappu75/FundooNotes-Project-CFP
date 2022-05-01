@@ -44,6 +44,15 @@ namespace FundooNotes_Project_CFP
             services.AddTransient<ICollabRL, CollabRL>();
             services.AddTransient<ILabelBL, LabelBL>();
             services.AddTransient<ILabelRL, LabelRL>();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(
+                name: "AllowOrigin",
+              builder => {
+                  builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+              });
+            });
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = "localhost:6379";
@@ -106,6 +115,7 @@ namespace FundooNotes_Project_CFP
             app.UseRouting();
 
             app.UseAuthentication();
+            app.UseCors("AllowOrigin");
 
             app.UseAuthorization();
 

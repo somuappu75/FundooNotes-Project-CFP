@@ -1,13 +1,21 @@
-﻿using BusinessLayer.Interface;
-using CommonLayer.Model;
-using RepositoryLayer.Entity;
-using RepositoryLayer.Interface;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="UserBL.cs" company="Bridgelabz">
+//    Copyright © 2019 Company
+// </copyright>
+// <creator name="Somanath Havinal"/>
+// -----------------------------------------------------------------------
 namespace BusinessLayer.Service
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using BusinessLayer.Interface;
+    using CommonLayer.Model;
+    using RepositoryLayer.Entity;
+    using RepositoryLayer.Interface;
+    /// <summary>
+    /// Iuserl Class
+    /// </summary>
     public class UserBL : IUserBL
     {
         private readonly IUserRL userRL;
@@ -17,19 +25,18 @@ namespace BusinessLayer.Service
 
         }
 
-        public string login(UserLogin userLogin)
+        public string Login(UserLogin userLogin)
         {
             try
             {
-                return userRL.login(userLogin);
+                return userRL.Login(userLogin);
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
-        //user registration
+        ////user registration
         public UserEntity Registration(UserRegistration User)
         {
             try
@@ -54,7 +61,7 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
-            public bool ResetPassword(string email, string password, string confirmPassword)
+        public bool ResetPassword(string email, string password, string confirmPassword)
             {
                 try
                 {
@@ -67,5 +74,8 @@ namespace BusinessLayer.Service
                 }
 
             }
+        ////encrypt and decrypt
+     
+     
         }
     }

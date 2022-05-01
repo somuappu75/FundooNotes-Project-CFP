@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BusinessLayer.Service
 {
-   public class LabelBL:ILabelBL
+    public class LabelBL : ILabelBL
     {
         ILabelRL labelRL;
         public LabelBL(ILabelRL labelRL)
@@ -83,7 +83,4 @@ namespace BusinessLayer.Service
 
     }
 
-
-    }
-
-
+}

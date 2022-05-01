@@ -7,7 +7,7 @@ using System.Text;
 
 namespace RepositoryLayer.Interface
 {
-   public  interface INotesRL
+    public interface INotesRL
     {
         public NotesEntity CreateNote(NotesModel notesModel, long UserId);
         public NotesEntity UpdateNote(UpdatNoteModel notesModel, long noteId, long userId);
@@ -20,6 +20,6 @@ namespace RepositoryLayer.Interface
         public NotesEntity IsTrashOrNot(long noteId, long userId);
         public NotesEntity IsPinnedOrNot(long noteId, long userId);
         public NotesEntity UploadImage(long noteId, long userId, IFormFile image);
-        public NotesEntity ChangeColour(long noteId, long userId, string color);
+        public NotesEntity ChangeColour(long noteId, long userId, updatecolor color);
     }
 }

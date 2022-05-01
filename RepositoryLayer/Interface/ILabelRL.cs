@@ -5,7 +5,8 @@ using System.Text;
 
 namespace RepositoryLayer.Interface
 {
-  public  interface ILabelRL
+
+    public interface ILabelRL
     {
         public LabelEntity AddLabel(long userID, long noteID, string labelName);
         public IEnumerable<LabelEntity> UpdateLabel(long userID, string oldLabelName, string labelName);

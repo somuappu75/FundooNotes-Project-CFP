@@ -59,7 +59,7 @@ namespace FundooNotes_Project_CFP.Controllers
         }
 
         [Authorize]
-        [HttpPut("Update")]
+        [HttpPut("Update/{noteId}")]
         public IActionResult UpdateNote(UpdatNoteModel notesModel, long noteId)
         {
             try
@@ -81,8 +81,8 @@ namespace FundooNotes_Project_CFP.Controllers
             }
         }
 
-       [Authorize]
-        [HttpDelete("Delete")]
+        [Authorize]
+        [HttpDelete("Delete/{noteId}")]
         public IActionResult DeleteNote(long noteId)
         {
             try
@@ -196,7 +196,7 @@ namespace FundooNotes_Project_CFP.Controllers
             }
             return Ok(NotesList);
         }
-        [HttpPut("IsArchive")]
+        [HttpPut("IsArchive/{noteId}")]
         public IActionResult IsArchieveOrNot(long noteId)
         {
             try
@@ -220,7 +220,7 @@ namespace FundooNotes_Project_CFP.Controllers
         }
 
 
-        [HttpPut("IsTrash")]
+        [HttpPut("IsTrash/{noteId}")]
         public IActionResult IsTrashOrNot(long noteId)
         {
             try
@@ -290,8 +290,8 @@ namespace FundooNotes_Project_CFP.Controllers
             }
         }
 
-        [HttpPut("Color")]
-        public IActionResult UpdateColour(long noteId, string color)
+        [HttpPut("Color/{noteId}")]
+        public IActionResult UpdateColour(long noteId, updatecolor color)
         {
             try
             {
@@ -316,4 +316,3 @@ namespace FundooNotes_Project_CFP.Controllers
 
     }
 }
-

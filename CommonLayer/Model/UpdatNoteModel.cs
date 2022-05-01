@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CommonLayer.Model
 {
-  public  class UpdatNoteModel
+    public class UpdatNoteModel
     {
         public string Title { get; set; }
         public string Description { get; set; }

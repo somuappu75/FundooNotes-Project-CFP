@@ -13,16 +13,16 @@ using System.Text;
 
 namespace RepositoryLayer.Service
 {
-    public class NotesRL:INotesRL
+    public class NotesRL : INotesRL
     {
-      
-            public readonly FundooContext fundooContext;
-            private readonly IConfiguration configuration;
-            public NotesRL(FundooContext fundooContext, IConfiguration configuration)
-            {
-                this.fundooContext = fundooContext;
-                this.configuration = configuration;
-            }
+
+        public readonly FundooContext fundooContext;
+        private readonly IConfiguration configuration;
+        public NotesRL(FundooContext fundooContext, IConfiguration configuration)
+        {
+            this.fundooContext = fundooContext;
+            this.configuration = configuration;
+        }
         //Create Note Api Mehod
         public NotesEntity CreateNote(NotesModel notesModel, long UserId)
         {
@@ -318,14 +318,15 @@ namespace RepositoryLayer.Service
             }
         }
         //Change Color Api MEthod
-        public NotesEntity ChangeColour(long noteId, long userId, string color)
+        public NotesEntity ChangeColour(long noteId, long userId,updatecolor color)
         {
             try
             {
                 var notes = this.fundooContext.Notes.FirstOrDefault(a => a.NotesId == noteId && a.Id == userId);
                 if (notes != null)
                 {
-                    notes.Color = color;
+                    // notes.Color = color;
+                    notes.Color = color.Color;
                     this.fundooContext.SaveChanges();
                     return notes;
                 }

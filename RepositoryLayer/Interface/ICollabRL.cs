@@ -6,7 +6,7 @@ using System.Text;
 
 namespace RepositoryLayer.Interface
 {
-  public   interface ICollabRL
+    public interface ICollabRL
     {
         public CollaboratorEntity AddCollab(CollaboratorModel collaboratorModel);
         public CollaboratorEntity RemoveCollab(long userId, long collabId);

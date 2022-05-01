@@ -8,7 +8,7 @@ using System.Text;
 
 namespace BusinessLayer.Service
 {
-   public  class CollabBL:ICollabBL
+    public class CollabBL : ICollabBL
     {
 
         private readonly ICollabRL collabRL;

@@ -30,7 +30,7 @@ namespace FundooNotes_Project_CFP.Controllers
                 if (result != null)
                     return this.Ok(new { success = true, message = "Registration Successfull", data = result });
                 else
-                    return this.BadRequest(new { success = false, message = "Registration UNSuccessfull" });
+                    return this.BadRequest(new { success = false, message = "Registration UnSuccessfull!!Try Again" });
             }
             catch (Exception)
             {
@@ -40,20 +40,22 @@ namespace FundooNotes_Project_CFP.Controllers
         }
         //Login Controller
         [HttpPost("Login")]
-        public IActionResult login(UserLogin userLogin)
+        public IActionResult Login(UserLogin userLogin)
         {
             try
             {
-                var result = userBL.login(userLogin);
-                if (result != null)
-                    return this.Ok(new { success = true, message = "Login Successfull", data = result });
+                var user = this.userBL.Login(userLogin);
+                if (user != null)
+                {
+                    return this.Ok(new { Success = true, message = "Login Successful Token", data = user });
+                }
                 else
-                    return this.BadRequest(new { success = false, message = "Login UNSuccessfull" });
-
+                {
+                    return this.BadRequest(new { Success = false, message = "Unsuccesssfull Login Try Again!!" });
+                }
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -70,7 +72,7 @@ namespace FundooNotes_Project_CFP.Controllers
                 }
                 else
                 {
-                    return this.BadRequest(new { Success = false, message = "Enter Valid Email Address" });
+                    return this.BadRequest(new { Success = false, message = "Enter Valid Email Address!!Try Again" });
                 }
             }
             catch (Exception)

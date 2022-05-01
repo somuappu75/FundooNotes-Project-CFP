@@ -7,8 +7,9 @@ using System.Text;
 
 namespace BusinessLayer.Interface
 {
-   public  interface INotesBL
+    public interface INotesBL
     {
+        //modified code
         public NotesEntity CreateNote(NotesModel notesModel, long UserId);
         public NotesEntity UpdateNote(UpdatNoteModel notesModel, long noteId, long userId);
         public bool DeleteNote(long noteId, long userId);
@@ -21,6 +22,6 @@ namespace BusinessLayer.Interface
         public NotesEntity IsPinnedOrNot(long noteId, long userId);
 
         public NotesEntity UploadImage(long noteId, long userId, IFormFile image);
-        public NotesEntity ChangeColour(long noteId, long userId, string color);
+        public NotesEntity ChangeColour(long noteId, long userId, updatecolor color);
     }
 }

@@ -1,12 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="UserEntity.cs" company="Bridgelabz">
+//    Copyright © 2019 Company
+// </copyright>
+// <creator name="Somanath Havinal"/>
+// -----------------------------------------------------------------------
 namespace RepositoryLayer.Entity
 {
-   public class UserEntity
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Text;
+    /// <summary>
+    /// UserEntity
+    /// </summary>
+    public class UserEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -17,6 +25,5 @@ namespace RepositoryLayer.Entity
         public string Password { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime ModifierAt { get; set; }
-
     }
 }
